@@ -1,0 +1,63 @@
+{
+  "start_stage": "Initial Review",
+
+  "stages": {
+
+    "Initial Review": {
+      "assigned_role": "Analyst",
+      "sla_hours": 4,
+      "transitions": [
+        {
+          "name": "Small Amount Fast Track",
+          "condition": "amount < 50000 and risk_score < 40",
+          "next_stage": "Auto Approval",
+          "priority": 1
+        },
+        {
+          "name": "Standard Processing",
+          "condition": "amount >= 50000",
+          "next_stage": "Manager Review",
+          "priority": 2
+        }
+      ]
+    },
+
+    "Manager Review": {
+      "assigned_role": "Manager",
+      "sla_hours": 8,
+      "transitions": [
+        {
+          "name": "High Risk Escalation",
+          "condition": "risk_score > 70",
+          "next_stage": "Escalation",
+          "priority": 1
+        },
+        {
+          "name": "Normal Risk Approval",
+          "condition": "risk_score <= 70",
+          "next_stage": "Final Approval",
+          "priority": 2
+        }
+      ]
+    },
+
+    "Escalation": {
+      "assigned_role": "Senior Manager",
+      "sla_hours": 12,
+      "final_status": "ESCALATED",
+      "reason": "High risk detected"
+    },
+
+    "Auto Approval": {
+      "assigned_role": "System",
+      "final_status": "APPROVED",
+      "reason": "Low amount and low risk"
+    },
+
+    "Final Approval": {
+      "assigned_role": "Manager",
+      "final_status": "APPROVED",
+      "reason": "Risk within acceptable limits"
+    }
+  }
+}
